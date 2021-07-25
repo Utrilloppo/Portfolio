@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,7 +18,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class ThreadPostDate {
+class ThreadPostData {
   late final String userName;
   late final String userThumbnail;
   late final int postTimeStamp;
@@ -29,7 +27,7 @@ class ThreadPostDate {
   late final int postLikeCount;
   late final int postCommentCount;
 
-  ThreadPostDate(
+  ThreadPostData(
       {required this.userName,
       required this.userThumbnail,
       required this.postTimeStamp,
@@ -48,8 +46,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late List<ThreadPostDate> dummyData = [
-    new ThreadPostDate(
+  late List<ThreadPostData> dummyData = [
+    new ThreadPostData(
         userName: "userTest1",
         userThumbnail: "",
         postTimeStamp: 202000,
@@ -57,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
         postCommentCount: 2,
         postLikeCount: 4,
         postImage: ''),
-    new ThreadPostDate(
+    new ThreadPostData(
         userName: "userTest1",
         userThumbnail: "",
         postTimeStamp: 202000,
@@ -65,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
         postCommentCount: 2,
         postLikeCount: 4,
         postImage: ''),
-    new ThreadPostDate(
+    new ThreadPostData(
         userName: "userTest1",
         userThumbnail: "",
         postTimeStamp: 202000,
@@ -104,7 +102,16 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           ListView(
             shrinkWrap: true,
-          )
+            children: dummyData.map(_listTile).toList(),
+          ),
+          _isLoading
+              ? Positioned(
+                  child: Container(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ))
+              : Container()
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -114,4 +121,22 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+}
+
+Widget _listTile(ThreadPostData data) {
+  return Padding(
+    padding: const EdgeInsets.all(2.0),
+    child: Card(
+      elevation: 2.0,
+      child: ListTile(
+        onTap: () {
+          print("Tap");
+        },
+        title: Text(
+          data.postContent,
+          style: TextStyle(fontSize: 18),
+        ),
+      ),
+    ),
+  );
 }
