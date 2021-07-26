@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/threadMain.dart';
+import 'package:news_app/userProfile.dart';
 import 'package:news_app/utils.dart';
 
 void main() {
@@ -10,93 +12,36 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: '闇ったー',
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: MyHomePage(title: '闇ったー'),
+      home: MyHomePage(
+        title: null,
+      ),
     );
   }
 }
 
-class ThreadPostData {
-  late final String userName;
-  late final String userThumbnail;
-  late final int postTimeStamp;
-  late final String postContent;
-  late final String postImage;
-  late final int postLikeCount;
-  late final int postCommentCount;
-
-  ThreadPostData(
-      {required this.userName,
-      required this.userThumbnail,
-      required this.postTimeStamp,
-      required this.postContent,
-      required this.postImage,
-      required this.postCommentCount,
-      required this.postLikeCount});
-}
-
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
-
+  MyHomePage({Key? key, title}) : super(key: key);
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  late List<ThreadPostData> dummyData = [
-    new ThreadPostData(
-        userName: "userTest1",
-        userThumbnail: "",
-        postTimeStamp: DateTime.now()
-            .subtract(new Duration(hours: 2))
-            .millisecondsSinceEpoch,
-        postContent: "This is Content",
-        postCommentCount: 2,
-        postLikeCount: 4,
-        postImage: ''),
-    new ThreadPostData(
-        userName: "Miyu",
-        userThumbnail: "",
-        postTimeStamp: DateTime.now()
-            .subtract(new Duration(seconds: 2))
-            .millisecondsSinceEpoch,
-        postContent:
-            "ThisisaCaaaefalr,g:z:km:ontenaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat",
-        postCommentCount: 2,
-        postLikeCount: 4,
-        postImage: ''),
-    new ThreadPostData(
-        userName: "OmOm",
-        userThumbnail: "",
-        postTimeStamp: DateTime.now()
-            .subtract(new Duration(days: 7))
-            .millisecondsSinceEpoch,
-        postContent: "This is the Content",
-        postCommentCount: 2,
-        postLikeCount: 22,
-        postImage: ''),
-  ];
-
-  bool _isLoading = false;
-
+class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+  late TabController _tabController;
+  @override
   void initState() {
-    //_takeUserDataFromFireBase();
+    _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(_handleTabSection);
     super.initState();
   }
 
-  Future<void> _takeUserDataFromFireBase() async {
-    setState(() {
-      _isLoading = true;
-    });
-  }
+  void _handleTabSection() => setState(() {});
 
-  void _incrementCounter() {
+  void onTabTapped(int index) {
     setState(() {
-      print("WritePost");
+      _tabController.index = index;
     });
   }
 
@@ -104,139 +49,27 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("My Portfolio"),
       ),
-      body: Stack(
+      body: TabBarView(
+        controller: _tabController,
         children: [
-          ListView(
-            shrinkWrap: true,
-            children: dummyData.map(_listTile).toList(),
-          ),
-          _isLoading
-              ? Positioned(
-                  child: Container(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  color: Colors.white.withOpacity(0.7),
-                ))
-              : Container()
+          ThreadMain(),
+          UserProfile(),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+      bottomNavigationBar: BottomNavigationBar(
+          onTap: onTabTapped,
+          currentIndex: _tabController.index,
+          selectedItemColor: Colors.amber[900],
+          unselectedItemColor: Colors.grey[800],
+          showUnselectedLabels: true,
+          items: [
+            BottomNavigationBarItem(
+                icon: new Icon(Icons.brightness_7), title: new Text("Thread")),
+            BottomNavigationBarItem(
+                icon: new Icon(Icons.people), title: new Text("Profile")),
+          ]),
     );
   }
-}
-
-Widget _listTile(ThreadPostData data) {
-  return Padding(
-    padding: const EdgeInsets.all(2.0),
-    child: Column(
-      children: [
-        Card(
-            elevation: 2.0,
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.book,
-                          size: 34,
-                        ),
-                      ),
-                      Text(
-                        data.userName,
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: Container(
-                          child: Text(
-                            readTimestamp(data.postTimeStamp),
-                            style:
-                                TextStyle(fontSize: 16, color: Colors.black87),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(4, 10, 4, 10),
-                    child: Text(
-                      data.postContent,
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ),
-                  Divider(
-                    height: 4,
-                    color: Colors.black,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 6, bottom: 2),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.favorite_border,
-                              size: 20,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: Text(
-                                "Like(${data.postLikeCount})",
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(Icons.mode_comment),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: Text(
-                                "Comment(${data.postCommentCount})",
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            )
-
-//       ListTile(
-//         onTap: () {
-//           print("Tap");
-//         },
-//         title: Text(
-//           data.postContent,
-//           style: TextStyle(fontSize: 18),
-//         ),
-//       ),
-
-            ),
-        Container(
-          height: 4,
-        )
-      ],
-    ),
-  );
 }
