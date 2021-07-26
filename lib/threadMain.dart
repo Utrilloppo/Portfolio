@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/utils.dart';
+import 'package:news_app/writePost.dart';
 
 class ThreadPostData {
   late final String userName;
@@ -45,7 +46,7 @@ class _ThreadMain extends State<ThreadMain> {
             .subtract(new Duration(seconds: 2))
             .millisecondsSinceEpoch,
         postContent:
-            "ThisisaCaaaefalr,g:z:km:ontenaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat",
+            " TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest",
         postCommentCount: 2,
         postLikeCount: 4,
         postImage: ''),
@@ -76,7 +77,8 @@ class _ThreadMain extends State<ThreadMain> {
 
   void _incrementCounter() {
     setState(() {
-      print("WritePost");
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => WritePost()));
     });
   }
 
@@ -111,7 +113,7 @@ class _ThreadMain extends State<ThreadMain> {
 
 Widget _listTile(ThreadPostData data) {
   return Padding(
-    padding: const EdgeInsets.all(2.0),
+    padding: const EdgeInsets.fromLTRB(2, 2, 2, 6),
     child: Column(
       children: [
         Card(

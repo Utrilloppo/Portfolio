@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/threadMain.dart';
 import 'package:news_app/userProfile.dart';
-import 'package:news_app/utils.dart';
 
 void main() {
   runApp(MyApp());
@@ -66,7 +65,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           showUnselectedLabels: true,
           items: [
             BottomNavigationBarItem(
-                icon: new Icon(Icons.brightness_7), title: new Text("Thread")),
+                icon: new Icon(Icons.water_damage_outlined),
+                title: new Text("Thread")),
             BottomNavigationBarItem(
                 icon: new Icon(Icons.people), title: new Text("Profile")),
           ]),
