@@ -10,11 +10,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: '闇ったー',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: '闇ったー'),
     );
   }
 }
@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
             .subtract(new Duration(seconds: 2))
             .millisecondsSinceEpoch,
         postContent:
-            "This is a Contenaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat",
+            "ThisisaCaaaefalr,g:z:km:ontenaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat",
         postCommentCount: 2,
         postLikeCount: 4,
         postImage: ''),
@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
             .millisecondsSinceEpoch,
         postContent: "This is the Content",
         postCommentCount: 2,
-        postLikeCount: 4,
+        postLikeCount: 22,
         postImage: ''),
   ];
 
@@ -153,44 +153,70 @@ Widget _listTile(ThreadPostData data) {
                           size: 34,
                         ),
                       ),
-                      Column(
-                        children: [
-                          Text(
-                            data.userName,
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          Text(
+                      Text(
+                        data.userName,
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Container(
+                          child: Text(
                             readTimestamp(data.postTimeStamp),
-                            style: TextStyle(fontSize: 18),
+                            style:
+                                TextStyle(fontSize: 16, color: Colors.black87),
                           ),
-                        ],
+                        ),
                       ),
                     ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(4, 10, 4, 10),
+                    child: Text(
+                      data.postContent,
+                      style: TextStyle(fontSize: 16),
+                    ),
                   ),
                   Divider(
                     height: 4,
                     color: Colors.black,
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(4, 10, 4, 10),
-                  ),
-                  Text(
-                    data.postContent,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  Divider(
-                    height: 4,
-                    color: Colors.black,
-                  ),
-                  Row(
-                    children: [
-                      Row(
-                        children: [Icon(Icons.favorite_border), Text("Like")],
-                      ),
-                      Row(
-                        children: [Icon(Icons.mode_comment), Text("Comment")],
-                      ),
-                    ],
+                    padding: const EdgeInsets.only(top: 6, bottom: 2),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.favorite_border,
+                              size: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Text(
+                                "Like(${data.postLikeCount})",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(Icons.mode_comment),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Text(
+                                "Comment(${data.postCommentCount})",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
