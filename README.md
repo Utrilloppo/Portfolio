@@ -1,6 +1,6 @@
 # news_app
-
-A new Flutter application.
+This is my portfolip app.
+It is SNS.
 
 ## Getting Started
 
