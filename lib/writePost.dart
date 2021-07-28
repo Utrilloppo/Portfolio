@@ -30,8 +30,9 @@ class _WritePost extends State<WritePost> {
             (node) {
               return GestureDetector(
                 onTap: () {
-                  print('Select Image');
-                  _getImageAndCrop();
+                  print("Close View");
+                  Navigator.pop(context);
+                  node.unfocus();
                 },
                 child: Container(
                   color: Colors.grey[200],
@@ -59,6 +60,8 @@ class _WritePost extends State<WritePost> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Writing Post"),
@@ -77,7 +80,59 @@ class _WritePost extends State<WritePost> {
               )),
         ],
       ),
-      body: Text("Write Post"),
+      body: KeyboardActions(
+        config: _buildConfig(context),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 28,
+            ),
+            Container(
+              width: size.width,
+              height:
+                  size.height - MediaQuery.of(context).viewInsets.bottom, //Todo
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Icon(
+                          Icons.book,
+                          size: 30,
+                        ),
+                      ),
+                      Text(
+                        "Miyu",
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                  Divider(
+                    height: 1,
+                    color: Colors.black,
+                  ),
+                  TextField(
+                    autofocus: true,
+                    focusNode: writingTextFocus,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: "Writing Anything",
+                      hintMaxLines: 4,
+                    ),
+                    controller: writeTextController,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

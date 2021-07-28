@@ -99,7 +99,7 @@ class _ThreadMain extends State<ThreadMain> {
                   ),
                   color: Colors.white.withOpacity(0.7),
                 ))
-              : Container()
+              : Container(),
         ],
       ),
       floatingActionButton: FloatingActionButton(
