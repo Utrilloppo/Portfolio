@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
@@ -12,6 +13,7 @@ class _WritePost extends State<WritePost> {
   final FocusNode _nodeText1 = FocusNode();
   TextEditingController writeTextController = TextEditingController();
   FocusNode writingTextFocus = FocusNode();
+  bool _isLoading = false;
 
   KeyboardActionsConfig _buildConfig(BuildContext context) {
     return KeyboardActionsConfig(
@@ -30,9 +32,9 @@ class _WritePost extends State<WritePost> {
             (node) {
               return GestureDetector(
                 onTap: () {
-                  print("Close View");
-                  Navigator.pop(context);
-                  node.unfocus();
+                  //   print("Close View");
+                  //   Navigator.pop(context);
+                  //   node.unfocus();
                 },
                 child: Container(
                   color: Colors.grey[200],
@@ -58,6 +60,18 @@ class _WritePost extends State<WritePost> {
     );
   }
 
+  Future<void> _sendFirePostInFirebase() async {
+    FirebaseFirestore.instance.collection("thread").doc("").set({
+      "userName": 'Tasaki Miyu',
+      "userThumbnail": "",
+      "postTimeStamp": DateTime.now().millisecondsSinceEpoch,
+      "postContent": "This is test content",
+      "postImage": "testUserName",
+      "postLikeCount": 0,
+      "postCommentCount": 22
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -69,10 +83,10 @@ class _WritePost extends State<WritePost> {
         actions: [
           FlatButton(
               onPressed: () {
-                print("Post Start");
+                print(" content is ${writeTextController.text}");
               },
               child: Text(
-                "Post content is ${writeTextController.text}",
+                "Post",
                 style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
