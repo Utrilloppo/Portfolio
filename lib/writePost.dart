@@ -72,7 +72,7 @@ class _WritePost extends State<WritePost> {
                 print("Post Start");
               },
               child: Text(
-                "Post",
+                "Post content is ${writeTextController.text}",
                 style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
