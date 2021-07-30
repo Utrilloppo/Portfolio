@@ -92,19 +92,52 @@ class _ThreadMain extends State<ThreadMain> {
     return Scaffold(
       body: Stack(
         children: [
-          ListView(
-            shrinkWrap: true,
-            children: dummyData.map(_listTile).toList(),
+          StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance.collection("thread").snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) return LinearProgressIndicator();
+              return Stack(
+                children: [
+                  snapshot.data!.docs.length > 0
+                      ? ListView(
+                          shrinkWrap: true,
+                          children: snapshot.data!.docs.map(_listTile).toList(),
+                        )
+                      : Container(
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.error),
+                                Padding(
+                                  padding: const EdgeInsets.all(14.0),
+                                  child: Text(
+                                    "Message",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey[700],
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                  _isLoading
+                      ? Positioned(
+                          child: Container(
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            color: Colors.white.withOpacity(0.7),
+                          ),
+                        )
+                      : Container(),
+                ],
+              );
+            },
           ),
-          _isLoading
-              ? Positioned(
-                  child: Container(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  color: Colors.white.withOpacity(0.7),
-                ))
-              : Container(),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -116,7 +149,7 @@ class _ThreadMain extends State<ThreadMain> {
   }
 }
 
-Widget _listTile(ThreadPostData data) {
+Widget _listTile(DocumentSnapshot data) {
   return Padding(
     padding: const EdgeInsets.fromLTRB(2, 2, 2, 6),
     child: Column(
@@ -138,7 +171,7 @@ Widget _listTile(ThreadPostData data) {
                         ),
                       ),
                       Text(
-                        data.userName,
+                        data["userName"],
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
@@ -146,7 +179,7 @@ Widget _listTile(ThreadPostData data) {
                         padding: const EdgeInsets.all(2.0),
                         child: Container(
                           child: Text(
-                            readTimestamp(data.postTimeStamp),
+                            readTimestamp(data["postTimeStamp"]),
                             style:
                                 TextStyle(fontSize: 16, color: Colors.black87),
                           ),
@@ -157,7 +190,7 @@ Widget _listTile(ThreadPostData data) {
                   Padding(
                     padding: EdgeInsets.fromLTRB(4, 10, 4, 10),
                     child: Text(
-                      data.postContent,
+                      data["postContent"],
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
@@ -179,7 +212,7 @@ Widget _listTile(ThreadPostData data) {
                             Padding(
                               padding: const EdgeInsets.only(left: 8),
                               child: Text(
-                                "Like(${data.postLikeCount})",
+                                "Like(${data["postLikeCount"]})",
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
@@ -192,7 +225,7 @@ Widget _listTile(ThreadPostData data) {
                             Padding(
                               padding: const EdgeInsets.only(left: 8),
                               child: Text(
-                                "Comment(${data.postCommentCount})",
+                                "Comment(${data["postCommentCount"]})",
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),

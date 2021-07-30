@@ -61,6 +61,9 @@ class _WritePost extends State<WritePost> {
   }
 
   Future<void> _sendFirePostInFirebase(String postContent) async {
+    setState(() {
+      _isLoading = true;
+    });
     FirebaseFirestore.instance.collection("thread").doc().set({
       "userName": 'Tasaki Miyu',
       "userThumbnail": "",
@@ -70,6 +73,10 @@ class _WritePost extends State<WritePost> {
       "postLikeCount": 0,
       "postCommentCount": 22
     });
+    setState(() {
+      _isLoading = false;
+    });
+    Navigator.pop(context);
   }
 
   @override
@@ -82,10 +89,8 @@ class _WritePost extends State<WritePost> {
         centerTitle: true,
         actions: [
           FlatButton(
-              onPressed: () {
-                print(" content is ${writeTextController.text}");
-                _sendFirePostInFirebase(writeTextController.text);
-              },
+              onPressed: () =>
+                  _sendFirePostInFirebase(writeTextController.text),
               child: Text(
                 "Post",
                 style: TextStyle(
@@ -97,54 +102,68 @@ class _WritePost extends State<WritePost> {
       ),
       body: KeyboardActions(
         config: _buildConfig(context),
-        child: Column(
+        child: Stack(
           children: [
-            SizedBox(
-              height: 28,
-            ),
-            Container(
-              width: size.width,
-              height:
-                  size.height - MediaQuery.of(context).viewInsets.bottom, //Todo
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+            Column(
+              children: [
+                SizedBox(
+                  height: 28,
+                ),
+                Container(
+                  width: size.width,
+                  height: size.height -
+                      MediaQuery.of(context).viewInsets.bottom, //Todo
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Icon(
-                          Icons.book,
-                          size: 30,
-                        ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Icon(
+                              Icons.book,
+                              size: 30,
+                            ),
+                          ),
+                          Text(
+                            "Miyu",
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),
+                          )
+                        ],
                       ),
-                      Text(
-                        "Miyu",
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold),
-                      )
+                      Divider(
+                        height: 1,
+                        color: Colors.black,
+                      ),
+                      TextField(
+                        autofocus: true,
+                        focusNode: writingTextFocus,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Writing Anything",
+                          hintMaxLines: 4,
+                        ),
+                        controller: writeTextController,
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
+                      ),
                     ],
                   ),
-                  Divider(
-                    height: 1,
-                    color: Colors.black,
-                  ),
-                  TextField(
-                    autofocus: true,
-                    focusNode: writingTextFocus,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: "Writing Anything",
-                      hintMaxLines: 4,
-                    ),
-                    controller: writeTextController,
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
+            _isLoading
+                ? Positioned(
+                    child: Container(
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      color: Colors.white.withOpacity(0.8),
+                    ),
+                  )
+                : Container()
           ],
         ),
       ),
