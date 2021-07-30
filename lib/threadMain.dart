@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/utils.dart';
@@ -56,7 +57,11 @@ class _ThreadMain extends State<ThreadMain> {
         postTimeStamp: DateTime.now()
             .subtract(new Duration(days: 7))
             .millisecondsSinceEpoch,
-        postContent: "This is the Content",
+        postContent: FirebaseFirestore.instance
+            .collection("test")
+            .doc("come")
+            .get()
+            .toString(),
         postCommentCount: 2,
         postLikeCount: 22,
         postImage: ''),

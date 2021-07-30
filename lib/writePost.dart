@@ -60,12 +60,12 @@ class _WritePost extends State<WritePost> {
     );
   }
 
-  Future<void> _sendFirePostInFirebase() async {
-    FirebaseFirestore.instance.collection("thread").doc("").set({
+  Future<void> _sendFirePostInFirebase(String postContent) async {
+    FirebaseFirestore.instance.collection("thread").doc().set({
       "userName": 'Tasaki Miyu',
       "userThumbnail": "",
       "postTimeStamp": DateTime.now().millisecondsSinceEpoch,
-      "postContent": "This is test content",
+      "postContent": postContent,
       "postImage": "testUserName",
       "postLikeCount": 0,
       "postCommentCount": 22
@@ -84,6 +84,7 @@ class _WritePost extends State<WritePost> {
           FlatButton(
               onPressed: () {
                 print(" content is ${writeTextController.text}");
+                _sendFirePostInFirebase(writeTextController.text);
               },
               child: Text(
                 "Post",
