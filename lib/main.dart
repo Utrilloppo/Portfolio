@@ -53,8 +53,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Portfolio"),
+        backgroundColor: Colors.grey.withOpacity(0.9),
       ),
+      // extendBodyBehindAppBar: true,
       body: TabBarView(
         controller: _tabController,
         children: [
