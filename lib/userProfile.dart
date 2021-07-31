@@ -11,9 +11,9 @@ class UserProfile extends StatefulWidget {
 class _UserProfile extends State<UserProfile> {
   List<String> iconImageList = [
     "001-panda.png",
-    "002-lion.ping",
+    "002-lion.png",
     "003-tiger.png",
-    "004-bear.png",
+    "004-bear-1.png",
     "005-parrot.png",
     "006-rabbit.png",
     "007-chameleon.png",
@@ -52,8 +52,8 @@ class _UserProfile extends State<UserProfile> {
               padding: const EdgeInsets.all(10.0),
               child: GridView.count(
                 crossAxisCount: 5,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 8,
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
                 padding: const EdgeInsets.all(8.0),
                 childAspectRatio: size.width * 0.00174,
                 physics: ScrollPhysics(),
@@ -68,32 +68,7 @@ class _UserProfile extends State<UserProfile> {
   }
 
   Widget _makeGridTile(String userIconPath) {
-    return new GestureDetector(
-      onTap: () {
-        print("touch the button");
-      },
-      child: changeIconGridItem(
-        userIconPath: userIconPath,
-      ),
-    );
-  }
-}
-
-class changeIconGridItem extends StatelessWidget {
-  changeIconGridItem({required this.userIconPath});
-
-  final String userIconPath;
-
-  @override
-  Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     return GridTile(
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25.0),
-        ),
-        child: Image.asset("images/$userIconPath"),
-      ),
-    );
+        child: GestureDetector(child: Image.asset("images/$userIconPath")));
   }
 }
