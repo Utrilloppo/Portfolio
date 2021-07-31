@@ -15,7 +15,7 @@ class _UserProfile extends State<UserProfile> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Card(
-          elevation: 2,
+          elevation: 2.0,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
