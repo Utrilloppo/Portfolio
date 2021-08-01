@@ -3,22 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/threadMain.dart';
 
+import 'commons/const.dart';
+
 class UserProfile extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _UserProfile();
 }
 
 class _UserProfile extends State<UserProfile> {
-  List<String> iconImageList = [
-    "001-panda.png",
-    "002-lion.png",
-    "003-tiger.png",
-    "004-bear-1.png",
-    "005-parrot.png",
-    "006-rabbit.png",
-    "007-chameleon.png",
-    "008-sloth.png"
-  ];
+  String myThumbnail = "004-bear-1.png";
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +48,7 @@ class _UserProfile extends State<UserProfile> {
                 mainAxisSpacing: 16,
                 crossAxisSpacing: 16,
                 padding: const EdgeInsets.all(8.0),
-                childAspectRatio: size.width * 0.00174,
+                //childAspectRatio: size.width * 0.00174,
                 physics: ScrollPhysics(),
                 shrinkWrap: true,
                 children: iconImageList.map(_makeGridTile).toList(),
@@ -69,6 +62,25 @@ class _UserProfile extends State<UserProfile> {
 
   Widget _makeGridTile(String userIconPath) {
     return GridTile(
-        child: GestureDetector(child: Image.asset("images/$userIconPath")));
+      child: GestureDetector(
+        onTap: () {
+          print("You chose $userIconPath");
+          setState(() {
+            myThumbnail = userIconPath;
+          });
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: userIconPath == myThumbnail ? Colors.yellow : Colors.white,
+            border: userIconPath == myThumbnail
+                ? Border.all(width: 2, color: Colors.red)
+                : null,
+          ),
+          child: Image.asset(
+            "images/$userIconPath",
+          ),
+        ),
+      ),
+    );
   }
 }

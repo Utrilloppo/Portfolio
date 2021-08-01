@@ -1,7 +1,12 @@
+import 'dart:math';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app/commons/const.dart';
+import 'package:news_app/commons/utils.dart';
 import 'package:news_app/threadMain.dart';
 import 'package:news_app/userProfile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,11 +39,38 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   late TabController _tabController;
+
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_handleTabSection);
+    _takeData();
     super.initState();
+  }
+
+  Future<void> _takeData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String myThumbnail;
+    String myName;
+
+    if (prefs.get('myThumbnail') == null) {
+      String tempThumbnail = iconImageList[Random().nextInt(50)];
+      prefs.setString('myThumbnail', tempThumbnail);
+      myThumbnail = tempThumbnail;
+    } else {
+      myThumbnail = prefs.get("myThumbnail").toString();
+    }
+
+    if (prefs.get('myName') == null) {
+      String tempName = Utils.getRandomString(8);
+      prefs.setString('myName', tempName);
+      myName = tempName;
+    } else {
+      myName = prefs.get('myName').toString();
+    }
+
+    MyProfileData myData =
+        MyProfileData(myName: myName, myThumbnail: myThumbnail);
   }
 
   void _handleTabSection() => setState(() {});
