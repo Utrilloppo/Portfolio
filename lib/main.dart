@@ -39,6 +39,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   late TabController _tabController;
+  late MyProfileData myData;
 
   @override
   void initState() {
@@ -68,9 +69,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     } else {
       myName = prefs.get('myName').toString();
     }
-
-    MyProfileData myData =
-        MyProfileData(myName: myName, myThumbnail: myThumbnail);
+    myData = MyProfileData(myName: myName, myThumbnail: myThumbnail);
   }
 
   void _handleTabSection() => setState(() {});
@@ -91,8 +90,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       body: TabBarView(
         controller: _tabController,
         children: [
-          ThreadMain(),
-          UserProfile(),
+          ThreadMain(
+            myData: myData,
+          ),
+          UserProfile(
+            myData: myData,
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

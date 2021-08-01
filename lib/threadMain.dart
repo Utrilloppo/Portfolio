@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app/commons/const.dart';
 import 'package:news_app/commons/utils.dart';
 import 'package:news_app/writePost.dart';
 
@@ -24,6 +25,9 @@ class ThreadPostData {
 }
 
 class ThreadMain extends StatefulWidget {
+  late final MyProfileData myData;
+  ThreadMain({required this.myData});
+
   @override
   State<StatefulWidget> createState() => _ThreadMain();
 }

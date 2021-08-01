@@ -6,12 +6,15 @@ import 'package:news_app/threadMain.dart';
 import 'commons/const.dart';
 
 class UserProfile extends StatefulWidget {
+  late final MyProfileData myData;
+  UserProfile({required this.myData});
+
   @override
   State<StatefulWidget> createState() => _UserProfile();
 }
 
 class _UserProfile extends State<UserProfile> {
-  String myThumbnail = "004-bear-1.png";
+  String myThumbnail = widget.myData.myThumbnail;
 
   @override
   Widget build(BuildContext context) {
@@ -25,15 +28,16 @@ class _UserProfile extends State<UserProfile> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(
-                  Icons.book,
-                  size: 26,
+              GestureDetector(
+                child: Image.asset(
+                  "images/${widget.myData.myThumbnail}",
                 ),
+                onTap: () {
+                  //Todo
+                },
               ),
               Text(
-                "Your Name: Miyu",
+                "Your Name: ${widget.myData.myName}",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
             ],
