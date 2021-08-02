@@ -14,7 +14,7 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfile extends State<UserProfile> {
-  String myThumbnail = widget.myData.myThumbnail;
+  //String myThumbnail = widget.myData.myThumbnail;
 
   @override
   Widget build(BuildContext context) {
@@ -61,30 +61,6 @@ class _UserProfile extends State<UserProfile> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _makeGridTile(String userIconPath) {
-    return GridTile(
-      child: GestureDetector(
-        onTap: () {
-          print("You chose $userIconPath");
-          setState(() {
-            myThumbnail = userIconPath;
-          });
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            color: userIconPath == myThumbnail ? Colors.yellow : Colors.white,
-            border: userIconPath == myThumbnail
-                ? Border.all(width: 2, color: Colors.red)
-                : null,
-          ),
-          child: Image.asset(
-            "images/$userIconPath",
-          ),
-        ),
-      ),
     );
   }
 }
