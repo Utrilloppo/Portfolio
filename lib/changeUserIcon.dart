@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'commons/const.dart';
 
 class ChangeUserIcon extends StatefulWidget {
-  late final MyProfileData myData;
+  final MyProfileData myData;
   ChangeUserIcon({required this.myData});
 
   @override

@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app/changeUserIcon.dart';
 import 'package:news_app/threadMain.dart';
 
 import 'commons/const.dart';
 
 class UserProfile extends StatefulWidget {
-  late final MyProfileData myData;
+  final MyProfileData myData;
   UserProfile({required this.myData});
 
   @override
@@ -15,7 +16,7 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfile extends State<UserProfile> {
   //String myThumbnail = widget.myData.myThumbnail;
-
+  String myThumbnail = "004-bear-1.png";
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -29,11 +30,21 @@ class _UserProfile extends State<UserProfile> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               GestureDetector(
-                child: Image.asset(
-                  "images/${widget.myData.myThumbnail}",
+                child: Container(
+                  height: 40,
+                  width: 40,
+                  child: Image.asset(
+                    "images/${widget.myData.myThumbnail}",
+                  ),
                 ),
                 onTap: () {
-                  //Todo
+                  showDialog(
+                    context: context,
+                    builder: (context) => ChangeUserIcon(
+                      myData: widget.myData,
+                    ),
+                    barrierDismissible: true,
+                  );
                 },
               ),
               Text(
@@ -61,6 +72,30 @@ class _UserProfile extends State<UserProfile> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _makeGridTile(String userIconPath) {
+    return GridTile(
+      child: GestureDetector(
+        onTap: () {
+          print("You chose $userIconPath");
+          setState(() {
+            myThumbnail = userIconPath;
+          });
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: userIconPath == myThumbnail ? Colors.yellow : Colors.white,
+            border: userIconPath == myThumbnail
+                ? Border.all(width: 2, color: Colors.red)
+                : null,
+          ),
+          child: Image.asset(
+            "images/$userIconPath",
+          ),
+        ),
+      ),
     );
   }
 }

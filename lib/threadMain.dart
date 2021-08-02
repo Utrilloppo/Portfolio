@@ -183,7 +183,9 @@ Widget _listTile(DocumentSnapshot data) {
                         padding: const EdgeInsets.all(2.0),
                         child: Container(
                           child: Text(
-                            readTimestamp(data["postTimeStamp"]),
+                            // readTimestamp(data["postTimeStamp"]
+                            "We cant use it now.",
+                            //),
                             style:
                                 TextStyle(fontSize: 16, color: Colors.black87),
                           ),

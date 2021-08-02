@@ -1,3 +1,5 @@
+const chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+
 List<String> iconImageList = [
   "001-panda.png",
   "002-lion.png",
@@ -16,5 +18,8 @@ class MyProfileData {
   final String myThumbnail;
   final String myName;
 
-  MyProfileData({required this.myName, required this.myThumbnail});
+  MyProfileData({
+    required this.myName,
+    required this.myThumbnail,
+  });
 }
