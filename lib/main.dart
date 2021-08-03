@@ -22,11 +22,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Colors.purple,
+        primarySwatch: Colors.grey,
       ),
-      home: MyHomePage(
-        title: null,
-      ),
+      home: MyHomePage(),
     );
   }
 }
@@ -46,6 +44,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_handleTabSection);
     _takeData();
+
     super.initState();
   }
 
@@ -69,7 +68,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     } else {
       myName = prefs.get('myName').toString();
     }
-    myData = MyProfileData(myName: myName, myThumbnail: myThumbnail);
+    setState(() {
+      myData = MyProfileData(myName: myName, myThumbnail: myThumbnail);
+    });
   }
 
   void _handleTabSection() => setState(() {});

@@ -11,10 +11,9 @@ class ChangeUserIcon extends StatefulWidget {
 }
 
 class _ChangeUserIcon extends State<ChangeUserIcon> {
-  String myThumbnail = "004-bear-1.png";
-
   @override
   Widget build(BuildContext context) {
+    String myThumbnail = widget.myData.myThumbnail;
     return Stack(
       children: [
         SimpleDialog(

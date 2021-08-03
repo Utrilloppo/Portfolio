@@ -54,7 +54,7 @@ class Utils {
     return time;
   }
 
-  Random _rnd = Random();
+  // Random _rnd = Random();   Maybe it wont use.
 
   static String getRandomString(int length) =>
       String.fromCharCodes(Iterable.generate(

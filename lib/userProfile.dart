@@ -30,11 +30,29 @@ class _UserProfile extends State<UserProfile> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               GestureDetector(
-                child: Container(
-                  height: 40,
-                  width: 40,
-                  child: Image.asset(
-                    "images/${widget.myData.myThumbnail}",
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    height: 60,
+                    width: 60,
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 40,
+                          height: 40,
+                          child: Image.asset(
+                            "images/${widget.myData.myThumbnail}",
+                          ),
+                        ),
+                        Text(
+                          "Images",
+                          style: TextStyle(
+                              color: Colors.blue[900],
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 onTap: () {
@@ -54,48 +72,7 @@ class _UserProfile extends State<UserProfile> {
             ],
           ),
         ),
-        Expanded(
-          child: Container(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: GridView.count(
-                crossAxisCount: 5,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                padding: const EdgeInsets.all(8.0),
-                //childAspectRatio: size.width * 0.00174,
-                physics: ScrollPhysics(),
-                shrinkWrap: true,
-                children: iconImageList.map(_makeGridTile).toList(),
-              ),
-            ),
-          ),
-        ),
       ],
-    );
-  }
-
-  Widget _makeGridTile(String userIconPath) {
-    return GridTile(
-      child: GestureDetector(
-        onTap: () {
-          print("You chose $userIconPath");
-          setState(() {
-            myThumbnail = userIconPath;
-          });
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            color: userIconPath == myThumbnail ? Colors.yellow : Colors.white,
-            border: userIconPath == myThumbnail
-                ? Border.all(width: 2, color: Colors.red)
-                : null,
-          ),
-          child: Image.asset(
-            "images/$userIconPath",
-          ),
-        ),
-      ),
     );
   }
 }
