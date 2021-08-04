@@ -14,10 +14,7 @@ void main() async {
   runApp(MyApp());
 }
 
-//もしかして,,,
-
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -44,7 +41,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_handleTabSection);
     _takeData();
-
     super.initState();
   }
 

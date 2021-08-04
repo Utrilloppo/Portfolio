@@ -19,6 +19,7 @@ class _ChangeUserIcon extends State<ChangeUserIcon> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
@@ -65,7 +66,7 @@ class _ChangeUserIcon extends State<ChangeUserIcon> {
                       elevation: 8.0,
                       color: Colors.black,
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.pop(context, myThumbnail);
                       },
                       child: Icon(
                         Icons.close,

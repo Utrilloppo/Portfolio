@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/changeUserIcon.dart';
 import 'package:news_app/threadMain.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'commons/const.dart';
 
@@ -15,8 +16,14 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfile extends State<UserProfile> {
-  //String myThumbnail = widget.myData.myThumbnail;
-  String myThumbnail = "004-bear-1.png";
+  late String _myThumbnail;
+
+  @override
+  void initState() {
+    _myThumbnail = widget.myData.myThumbnail;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -41,7 +48,7 @@ class _UserProfile extends State<UserProfile> {
                           width: 40,
                           height: 40,
                           child: Image.asset(
-                            "images/${widget.myData.myThumbnail}",
+                            "images/$_myThumbnail",
                           ),
                         ),
                         Text(
@@ -62,7 +69,11 @@ class _UserProfile extends State<UserProfile> {
                       myData: widget.myData,
                     ),
                     barrierDismissible: true,
-                  );
+                  ).then((newMyThumbnail) {
+                    setState(() {
+                      _myThumbnail = newMyThumbnail;
+                    });
+                  });
                 },
               ),
               Text(
@@ -74,5 +85,10 @@ class _UserProfile extends State<UserProfile> {
         ),
       ],
     );
+  }
+
+  Future<void> _updateMyThumbnail(String newThumbnail) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("myThumbnail", newThumbnail);
   }
 }
