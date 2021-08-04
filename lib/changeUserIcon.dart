@@ -11,9 +11,15 @@ class ChangeUserIcon extends StatefulWidget {
 }
 
 class _ChangeUserIcon extends State<ChangeUserIcon> {
+  late String myThumbnail;
+
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     String myThumbnail = widget.myData.myThumbnail;
+    super.initState();
+  }
+
+  Widget build(BuildContext context) {
     return Stack(
       children: [
         SimpleDialog(
